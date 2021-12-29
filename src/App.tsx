@@ -8,11 +8,13 @@ import {
   FeedbackType,
   setFilteredFeedBacks,
   setQuantityFeedbacksAC,
-  setQuantityStarsAC
+  setQuantityStarsAC, setStartFilteredValues
 } from "./bll/reducers/data-reducer";
 import Rating from '@mui/material/Rating';
 import {TextField} from "@mui/material";
 import {EmptyComingData} from "./UI/emptyData/EmptyComingData";
+import Select from "react-select";
+import MultipleSelectChip from "./UI/MultipleSelect";
 
 
 export type doubleRange = Array<number>
@@ -27,9 +29,16 @@ function App() {
 
   //filter values
   const filterQuantityFeedbacks = useSelector<AppRootState, number>(state => state.dataFeedback.setFilter.quantityFeedBacks)
-  const filterStars = useSelector<AppRootState, number>(state => state.dataFeedback.setFilter.quantityStars)
+  const filterStars = useSelector<AppRootState, number[]>(state => state.dataFeedback.setFilter.quantityStars)
   const minPrice = useSelector<AppRootState, number>(state => state.dataFeedback.setFilter.minPrice)
   const maxPrice = useSelector<AppRootState, number>(state => state.dataFeedback.setFilter.maxPrice)
+
+  const StartDataValue = {
+    quantityStars: [2],
+    quantityFeedBacks: 12,
+    minPrice: 10000,
+    maxPrice: 90000,
+  }
 
   function onChangeFeedbackQuantity(e: any) {
     const value = Math.floor(Number(e.currentTarget.value))
@@ -40,25 +49,23 @@ function App() {
   }
 
   function filterFeedback(arr: FeedbackType[]) {
-    return arr.filter(el => (el.feedbackStar === filterStars
+    return arr.filter(el => (filterStars.find(st => st === el.feedbackStar)
       && el.quantityFeedBacks > filterQuantityFeedbacks
       && el.price > minPrice && el.price < maxPrice))
   }
+
   return (
+
     <div className={s.box}>
+      <button onClick={() => console.log(filterStars)}></button>
       <div className={s.filters}>
         <div className={'quantity'}>
           <h3>Количество звезд</h3>
-          <select className={s.select} onChange={(e) => dispatch(setQuantityStarsAC(Number(e.currentTarget.value)))}>
-            {dataStars.map((star: number, ind: number) => {
-              return <option key={ind + 212} value={star}>{star}</option>
-            })}
-          </select>
+          <MultipleSelectChip/>
         </div>
         <div>
           <h3>Количество отзывов</h3>
           <TextField
-            label="Например от 10"
             onChange={onChangeFeedbackQuantity}
             inputProps={{
               type: 'number',
@@ -75,6 +82,11 @@ function App() {
             />
             <button onClick={() => dispatch(setFilteredFeedBacks(filterFeedback(data)))}
                     className={s.buttonFilter}>ПРИМЕНИТЬ ФИЛЬТР
+            </button>
+            <button onClick={() => {
+              dispatch(setStartFilteredValues(StartDataValue))
+              dispatch(setFilteredFeedBacks(filterFeedback(data)))
+            }}>Очистить фильтр
             </button>
           </div>
         </div>
@@ -105,5 +117,4 @@ function App() {
 }
 
 export default App;
-
 

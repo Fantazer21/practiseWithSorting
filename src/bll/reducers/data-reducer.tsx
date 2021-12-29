@@ -8,7 +8,7 @@ export type InitialStateType = {
   setFilter: setFiltersType
 }
 export type setFiltersType = {
-  quantityStars: number,
+  quantityStars: number[],
   quantityFeedBacks: number,
   minPrice: number,
   maxPrice: number,
@@ -108,19 +108,36 @@ const initialState: InitialStateType = {
     price: 44500,
     status: false,
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+  }, {
+    id: 2,
+    hotelName: 'Marina In',
+    feedbackStar: 1,
+    quantityFeedBacks: 45,
+    price: 44500,
+    status: false,
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
   }],
   setFilter: {
-    quantityStars: 2,
+    quantityStars: [2],
     quantityFeedBacks: 12,
     minPrice: 10000,
     maxPrice: 90000,
   }
 }
 
+enum Data {
+  SET_QUANTITY_STARS = 'set-quantity-stars',
+  SET_QUANTITY_FEEDBACKS = 'set-quantity-feedbacks',
+  SET_MIN_PRICE = 'set-min-price',
+  SET_MAX_PRICE = 'set-max-price',
+  SET_FILTERED_DATA = 'set-filtered-data',
+  SET_START_FILTERED_VALUES = 'set-start-filtered-values',
+}
+
 
 export const dataReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
   switch (action.type) {
-    case 'set-quantity-stars':
+    case Data.SET_QUANTITY_STARS:
       return {
         ...state,
         setFilter: {
@@ -128,7 +145,7 @@ export const dataReducer = (state: InitialStateType = initialState, action: Acti
           quantityStars: action.feedbackStar
         } as setFiltersType
       }
-    case 'set-quantity-feedbacks':
+    case Data.SET_QUANTITY_FEEDBACKS:
       return {
         ...state,
         setFilter: {
@@ -136,7 +153,7 @@ export const dataReducer = (state: InitialStateType = initialState, action: Acti
           quantityFeedBacks: action.quantityFeedBacks
         } as setFiltersType
       }
-    case 'set-min-price':
+    case Data.SET_MIN_PRICE:
       return {
         ...state,
         setFilter: {
@@ -144,7 +161,7 @@ export const dataReducer = (state: InitialStateType = initialState, action: Acti
           minPrice: action.price
         } as setFiltersType
       }
-    case 'set-max-price':
+    case Data.SET_MAX_PRICE:
       return {
         ...state,
         setFilter: {
@@ -152,12 +169,12 @@ export const dataReducer = (state: InitialStateType = initialState, action: Acti
           maxPrice: action.price
         } as setFiltersType
       }
-    case 'set-filtered-data':
+    case Data.SET_FILTERED_DATA:
       return {
         ...state,
         dataFiltered: action.dataArray
       }
-    case 'set-start-filtered-values':
+    case Data.SET_START_FILTERED_VALUES:
       return {
         ...state, setFilter: action.val
       }
@@ -167,7 +184,7 @@ export const dataReducer = (state: InitialStateType = initialState, action: Acti
 }
 
 //actions
-export const setQuantityStarsAC = (star: number) => ({type: 'set-quantity-stars', feedbackStar: star} as const)
+export const setQuantityStarsAC = (star: []) => ({type: 'set-quantity-stars', feedbackStar: star} as const)
 type setQuantityStarsACType = ReturnType<typeof setQuantityStarsAC>
 
 export const setQuantityFeedbacksAC = (feedback: number) => ({
