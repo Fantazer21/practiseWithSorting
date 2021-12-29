@@ -8,12 +8,11 @@ import {
   FeedbackType,
   setFilteredFeedBacks,
   setQuantityFeedbacksAC,
-  setQuantityStarsAC, setStartFilteredValues
+  setStartFilteredValues
 } from "./bll/reducers/data-reducer";
 import Rating from '@mui/material/Rating';
 import {TextField} from "@mui/material";
 import {EmptyComingData} from "./UI/emptyData/EmptyComingData";
-import Select from "react-select";
 import MultipleSelectChip from "./UI/MultipleSelect";
 
 
@@ -22,10 +21,8 @@ export type doubleRange = Array<number>
 
 function App() {
   const dispatch = useDispatch()
-  const dataStars = useSelector<AppRootState, number[]>(state => state.dataFeedback.dataStars)
   const dataFiltered = useSelector<AppRootState, FeedbackType[]>(state => state.dataFeedback.dataFiltered)
   const data = useSelector<AppRootState, FeedbackType[]>(state => state.dataFeedback.dataFeedback)
-
 
   //filter values
   const filterQuantityFeedbacks = useSelector<AppRootState, number>(state => state.dataFeedback.setFilter.quantityFeedBacks)
@@ -33,12 +30,14 @@ function App() {
   const minPrice = useSelector<AppRootState, number>(state => state.dataFeedback.setFilter.minPrice)
   const maxPrice = useSelector<AppRootState, number>(state => state.dataFeedback.setFilter.maxPrice)
 
+
   const StartDataValue = {
-    quantityStars: [2],
+    quantityStars: [],
     quantityFeedBacks: 12,
     minPrice: 10000,
     maxPrice: 90000,
   }
+
 
   function onChangeFeedbackQuantity(e: any) {
     const value = Math.floor(Number(e.currentTarget.value))
@@ -57,7 +56,6 @@ function App() {
   return (
 
     <div className={s.box}>
-      <button onClick={() => console.log(filterStars)}></button>
       <div className={s.filters}>
         <div className={'quantity'}>
           <h3>Количество звезд</h3>
@@ -85,8 +83,9 @@ function App() {
             </button>
             <button onClick={() => {
               dispatch(setStartFilteredValues(StartDataValue))
-              dispatch(setFilteredFeedBacks(filterFeedback(data)))
-            }}>Очистить фильтр
+              dispatch(setFilteredFeedBacks([]))
+            }}
+                    className={s.buttonFilter}>Очистить фильтр
             </button>
           </div>
         </div>

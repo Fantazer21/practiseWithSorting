@@ -100,25 +100,9 @@ const initialState: InitialStateType = {
   currentQuantityStars: 2,
   quantityFeedBacks: 24,
   price: 43,
-  dataFiltered: [{
-    id: 1,
-    hotelName: 'Marina In',
-    feedbackStar: 3,
-    quantityFeedBacks: 45,
-    price: 44500,
-    status: false,
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-  }, {
-    id: 2,
-    hotelName: 'Marina In',
-    feedbackStar: 1,
-    quantityFeedBacks: 45,
-    price: 44500,
-    status: false,
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-  }],
+  dataFiltered: [],
   setFilter: {
-    quantityStars: [2],
+    quantityStars: [],
     quantityFeedBacks: 12,
     minPrice: 10000,
     maxPrice: 90000,
