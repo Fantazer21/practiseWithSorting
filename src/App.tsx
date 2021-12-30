@@ -77,6 +77,7 @@ function App() {
           </div>
         </div>
       </div>
+
       {dataFiltered.length !== 0 ? dataFiltered.map((el, ind) => {
         return <div key={ind + 323} className={s.dataFiltered}>
           <div>{el.hotelName}</div>

@@ -100,11 +100,81 @@ const initialState: InitialStateType = {
   currentQuantityStars: 2,
   quantityFeedBacks: 24,
   price: 43,
-  dataFiltered: [],
+  dataFiltered: [
+    {
+      id: 1,
+      hotelName: 'Marina In',
+      feedbackStar: 3,
+      quantityFeedBacks: 45,
+      price: 44500,
+      status: true,
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+    },
+    {
+      id: 2,
+      hotelName: 'Blue bay',
+      feedbackStar: 5,
+      quantityFeedBacks: 12,
+      price: 23450,
+      status: true,
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+
+    },
+    {
+      id: 3,
+      hotelName: 'Green marine',
+      feedbackStar: 4,
+      quantityFeedBacks: 32,
+      price: 73900,
+      status: true,
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+
+    },
+    {
+      id: 4,
+      hotelName: 'Spa resort',
+      feedbackStar: 1,
+      quantityFeedBacks: 99,
+      price: 93200,
+      status: false,
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+
+    },
+    {
+      id: 5,
+      hotelName: 'Marina In',
+      feedbackStar: 3,
+      quantityFeedBacks: 45,
+      price: 12000,
+      status: false,
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+
+    },
+    {
+      id: 6,
+      hotelName: 'Bla BLa Hotel',
+      feedbackStar: 2,
+      quantityFeedBacks: 45,
+      price: 20000,
+      status: false,
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+
+    },
+    {
+      id: 7,
+      hotelName: 'Bla Ne wdsBLa Hotel',
+      feedbackStar: 2,
+      quantityFeedBacks: 25,
+      price: 25000,
+      status: true,
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+
+    }
+  ],
   setFilter: {
     quantityFeedBacks: 1,
     quantityStars: [],
-    minPrice: 10000,
+    minPrice: 5000,
     maxPrice: 90000,
   }
 }
