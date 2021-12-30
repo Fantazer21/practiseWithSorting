@@ -27,6 +27,7 @@ export default function MultipleSelectChip() {
   const [star, setStar] = React.useState([]);
 
   const dataStars = useSelector<AppRootState, number[]>(state => state.dataFeedback.dataStars)
+  const startdataStars = useSelector<AppRootState, number[]>(state => state.dataFeedback.setFilter.quantityStars)
 
 
   const handleChange = (event: any) => {
@@ -46,7 +47,7 @@ export default function MultipleSelectChip() {
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
           multiple
-          value={star}
+          value={startdataStars}
            onChange={(e) => {
               // @ts-ignore
              dispatch(setQuantityStarsAC(e.target.value))

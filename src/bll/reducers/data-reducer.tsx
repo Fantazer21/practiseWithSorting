@@ -102,12 +102,13 @@ const initialState: InitialStateType = {
   price: 43,
   dataFiltered: [],
   setFilter: {
+    quantityFeedBacks: 1,
     quantityStars: [],
-    quantityFeedBacks: 12,
     minPrice: 10000,
     maxPrice: 90000,
   }
 }
+
 
 enum Data {
   SET_QUANTITY_STARS = 'set-quantity-stars',
@@ -159,8 +160,13 @@ export const dataReducer = (state: InitialStateType = initialState, action: Acti
         dataFiltered: action.dataArray
       }
     case Data.SET_START_FILTERED_VALUES:
-      return {
-        ...state, setFilter: action.val
+      return {...state, setFilter: {
+          ...state.setFilter,
+          quantityFeedBacks: 1,
+          quantityStars: [],
+          minPrice: 10000,
+          maxPrice: 90000,
+        }
       }
     default:
       return state
@@ -168,26 +174,26 @@ export const dataReducer = (state: InitialStateType = initialState, action: Acti
 }
 
 //actions
-export const setQuantityStarsAC = (star: []) => ({type: 'set-quantity-stars', feedbackStar: star} as const)
+export const setQuantityStarsAC = (star: []) => ({type: Data.SET_QUANTITY_STARS, feedbackStar: star} as const)
 type setQuantityStarsACType = ReturnType<typeof setQuantityStarsAC>
 
 export const setQuantityFeedbacksAC = (feedback: number) => ({
-  type: 'set-quantity-feedbacks',
+  type: Data.SET_QUANTITY_FEEDBACKS,
   quantityFeedBacks: feedback
 } as const)
 type setQuantityFeedbacksACType = ReturnType<typeof setQuantityFeedbacksAC>
 
-export const setMinPriceAC = (price: number) => ({type: 'set-min-price', price: price} as const)
+export const setMinPriceAC = (price: number) => ({type: Data.SET_MIN_PRICE, price: price} as const)
 type setMinPriceACType = ReturnType<typeof setMinPriceAC>
 
-export const setMaxPriceAC = (price: number) => ({type: 'set-max-price', price: price} as const)
+export const setMaxPriceAC = (price: number) => ({type: Data.SET_MAX_PRICE, price: price} as const)
 type setMaxPriceACType = ReturnType<typeof setMaxPriceAC>
 
 
-export const setFilteredFeedBacks = (data: FeedbackType[]) => ({type: 'set-filtered-data', dataArray: data} as const)
+export const setFilteredFeedBacks = (data: FeedbackType[]) => ({type: Data.SET_FILTERED_DATA, dataArray: data} as const)
 type setFilteredFeedBacksACType = ReturnType<typeof setFilteredFeedBacks>
 
-export const setStartFilteredValues = (val: setFiltersType) => ({type: 'set-start-filtered-values', val: val} as const)
+export const setStartFilteredValues = () => ({type: Data.SET_START_FILTERED_VALUES} as const)
 type setStartFilteredValuesACType = ReturnType<typeof setStartFilteredValues>
 
 

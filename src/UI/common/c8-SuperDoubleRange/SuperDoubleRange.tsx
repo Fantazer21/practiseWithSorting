@@ -1,56 +1,42 @@
-import React, { useState } from 'react';
-import './SuperDoubleRange.css';
-import Slider from 'rc-slider';
-import 'rc-slider/assets/index.css';
-import 'rc-slider/assets/index.css';
-import {useDispatch} from "react-redux";
-import {setMaxPriceAC, setMinPriceAC} from '../../../bll/reducers/data-reducer';
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Slider from '@mui/material/Slider';
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootState} from "../../../bll/store";
 
+import {setMaxPriceAC, setMinPriceAC} from "../../../bll/reducers/data-reducer";
+import {useEffect} from "react";
 
-const {createSliderWithTooltip} = Slider;
-const Range = createSliderWithTooltip(Slider.Range);
-
-type SuperDoubleRangePropsType = {
-  onChangeRange?: (value: number[]) => void
-  value?: number[]
-}
-
-const SuperDoubleRange: React.FC<SuperDoubleRangePropsType> = (
-  {
-    onChangeRange,
-  }) => {
-   const handleChange = (event: Event, newValue: number[] | number) => {
-     onChangeRange && onChangeRange(newValue as number[]);
-   };
-
+export default function RangeSlider() {
   const dispatch = useDispatch()
-  const [value, setValue] = useState<number[]>([3500, 90000]);
+  const minPrice = useSelector<AppRootState, number>(state => state.dataFeedback.setFilter.minPrice)
+  const maxPrice = useSelector<AppRootState, number>(state => state.dataFeedback.setFilter.maxPrice)
+  const [value, setValue] = React.useState([minPrice, maxPrice]);
+
+  useEffect(() => {
+    setValue([minPrice,maxPrice])
+  },[minPrice,maxPrice])
+
+  const handleChange = (event: any, newValue: any) => {
+    setValue(newValue);
+    dispatch(setMinPriceAC(value[0]))
+    dispatch(setMaxPriceAC(value[1]))
+  };
 
   return (
-    <>
-      <div className="sliderArea">
-        <Range
-          marks={{
-            0: `0`,
-            100000: `100000`,
-          }}
+    <div>
+      <Box sx={{width: 300}}>
+        <Slider
+          getAriaLabel={() => 'Temperature range'}
           min={0}
           max={100000}
           defaultValue={value}
-          tipFormatter={value => `${value}руб`}
-          tipProps={{
-            placement: 'top',
-            visible: true
-          }}
-          onChange={setValue}
-          onAfterChange={() => {
-            dispatch(setMinPriceAC(value[0]))
-            dispatch(setMaxPriceAC(value[1]))
-          }}
+          value={value}
+          onChange={handleChange}
+          valueLabelDisplay="auto"
         />
-      </div>
-    </>
+      </Box>
+    </div>
+
   );
 }
-
-export default SuperDoubleRange;

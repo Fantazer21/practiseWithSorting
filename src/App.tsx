@@ -6,7 +6,7 @@ import s from './styles.module.css';
 import SuperDoubleRange from "./UI/common/c8-SuperDoubleRange/SuperDoubleRange";
 import {
   FeedbackType,
-  setFilteredFeedBacks,
+  setFilteredFeedBacks, setMaxPriceAC, setMinPriceAC,
   setQuantityFeedbacksAC,
   setStartFilteredValues
 } from "./bll/reducers/data-reducer";
@@ -15,28 +15,17 @@ import {TextField} from "@mui/material";
 import {EmptyComingData} from "./UI/emptyData/EmptyComingData";
 import MultipleSelectChip from "./UI/MultipleSelect";
 
-
-export type doubleRange = Array<number>
-
-
 function App() {
   const dispatch = useDispatch()
   const dataFiltered = useSelector<AppRootState, FeedbackType[]>(state => state.dataFeedback.dataFiltered)
   const data = useSelector<AppRootState, FeedbackType[]>(state => state.dataFeedback.dataFeedback)
+  const valueFeedBacks = useSelector<AppRootState, number>(state => state.dataFeedback.setFilter.quantityFeedBacks)
 
   //filter values
   const filterQuantityFeedbacks = useSelector<AppRootState, number>(state => state.dataFeedback.setFilter.quantityFeedBacks)
   const filterStars = useSelector<AppRootState, number[]>(state => state.dataFeedback.setFilter.quantityStars)
   const minPrice = useSelector<AppRootState, number>(state => state.dataFeedback.setFilter.minPrice)
   const maxPrice = useSelector<AppRootState, number>(state => state.dataFeedback.setFilter.maxPrice)
-
-
-  const StartDataValue = {
-    quantityStars: [],
-    quantityFeedBacks: 12,
-    minPrice: 10000,
-    maxPrice: 90000,
-  }
 
 
   function onChangeFeedbackQuantity(e: any) {
@@ -54,7 +43,6 @@ function App() {
   }
 
   return (
-
     <div className={s.box}>
       <div className={s.filters}>
         <div className={'quantity'}>
@@ -65,10 +53,7 @@ function App() {
           <h3>Количество отзывов</h3>
           <TextField
             onChange={onChangeFeedbackQuantity}
-            inputProps={{
-              type: 'number',
-              pattern: "[0-9]", min: 0,
-            }}
+            value={valueFeedBacks}
           />
         </div>
         <div>
@@ -82,8 +67,10 @@ function App() {
                     className={s.buttonFilter}>ПРИМЕНИТЬ ФИЛЬТР
             </button>
             <button onClick={() => {
-              dispatch(setStartFilteredValues(StartDataValue))
+              dispatch(setStartFilteredValues())
               dispatch(setFilteredFeedBacks([]))
+              dispatch(setMinPriceAC(10000))
+              dispatch(setMaxPriceAC(90000))
             }}
                     className={s.buttonFilter}>Очистить фильтр
             </button>
