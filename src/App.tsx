@@ -1,14 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from './bll/store';
 import s from './styles.module.css';
 import SuperDoubleRange from "./UI/common/c8-SuperDoubleRange/SuperDoubleRange";
 import {
-  FeedbackType,
-  setFilteredFeedBacks, setMaxPriceAC, setMinPriceAC,
-  setQuantityFeedbacksAC,
-  setStartFilteredValues
+  FeedbackType, setBookStatusAC,
+  setFilteredDataAC, setMaxPriceAC, setMinPriceAC,
+  setQuantityFeedbacksAC, setStartFeedbacksAC,
+  setStartFilteredValuesAC
 } from "./bll/reducers/data-reducer";
 import Rating from '@mui/material/Rating';
 import {TextField} from "@mui/material";
@@ -27,7 +27,6 @@ function App() {
   const minPrice = useSelector<AppRootState, number>(state => state.dataFeedback.setFilter.minPrice)
   const maxPrice = useSelector<AppRootState, number>(state => state.dataFeedback.setFilter.maxPrice)
 
-
   function onChangeFeedbackQuantity(e: any) {
     const value = Math.floor(Number(e.currentTarget.value))
 
@@ -41,6 +40,23 @@ function App() {
       && el.quantityFeedBacks > filterQuantityFeedbacks
       && el.price > minPrice && el.price < maxPrice))
   }
+
+  function clearFilterValues() {
+    dispatch(setStartFilteredValuesAC())
+    dispatch(setFilteredDataAC([]))
+    dispatch(setMinPriceAC(10000))
+    dispatch(setMaxPriceAC(90000))
+    dispatch(setStartFeedbacksAC())
+    setClearActive('disabled')
+  }
+
+  function setFilterValues() {
+    dispatch(setFilteredDataAC(filterFeedback(data)))
+    setClearActive('active')
+  }
+
+  const [clearActive, setClearActive] = useState<'active' | 'disabled'>('disabled')
+
 
   return (
     <div className={s.box}>
@@ -63,21 +79,16 @@ function App() {
           <div className={s.doubleInput}>
             <SuperDoubleRange
             />
-            <button onClick={() => dispatch(setFilteredFeedBacks(filterFeedback(data)))}
+            <button onClick={() => setFilterValues()}
                     className={s.buttonFilter}>ПРИМЕНИТЬ ФИЛЬТР
             </button>
-            <button onClick={() => {
-              dispatch(setStartFilteredValues())
-              dispatch(setFilteredFeedBacks([]))
-              dispatch(setMinPriceAC(10000))
-              dispatch(setMaxPriceAC(90000))
-            }}
-                    className={s.buttonFilter}>Очистить фильтр
-            </button>
+            {(clearActive === 'active') ? <button onClick={() => clearFilterValues()}
+                                                  className={s.clearFilter}>ОЧИСТИТЬ ФИЛЬТР
+            </button> : ''}
+
           </div>
         </div>
       </div>
-
       {dataFiltered.length !== 0 ? dataFiltered.map((el, ind) => {
         return <div key={ind + 323} className={s.dataFiltered}>
           <div>{el.hotelName}</div>
@@ -91,14 +102,13 @@ function App() {
           </div>
           <div className={s.dataFilteredDescription}>{el.description}</div>
           <div className={s.dataFilteredAttribute}>
-            {
-              !el.status ? <button className={s.buttonUnbooked}>Забронировать</button> :
-                <button className={s.buttonBooked}><b>Забронировано</b></button>
-            }
+            {<button
+              className={ !el.status ? s.buttonBooked  : s.buttonUnbooked }
+              onClick={() => dispatch(setBookStatusAC(el.id , el.status))}>{el.status ? 'Забронировать' : 'Забронировано' }</button>}
             <div className={s.priceAttribute}>{el.price}</div>
           </div>
         </div>
-      }) : <EmptyComingData/>}
+      }) : <EmptyComingData/> }
     </div>
   );
 }
