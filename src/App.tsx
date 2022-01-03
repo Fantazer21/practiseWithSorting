@@ -11,9 +11,14 @@ import {
   setStartFilteredValuesAC
 } from "./bll/reducers/data-reducer";
 import Rating from '@mui/material/Rating';
-import {TextField} from "@mui/material";
+import {Pagination, TextField} from "@mui/material";
 import {EmptyComingData} from "./UI/emptyData/EmptyComingData";
 import MultipleSelectChip from "./UI/MultipleSelect";
+
+// import { Box, List, Tag, ListItem, Divider } from "@chakra-ui/core";
+
+import usePagination from "./UI/pagination/Pagination";
+
 
 function App() {
   const dispatch = useDispatch()
@@ -56,7 +61,16 @@ function App() {
   }
 
   const [clearActive, setClearActive] = useState<'active' | 'disabled'>('disabled')
+  let [page, setPage] = useState(1);
+  const PER_PAGE = 2;
 
+  const count = Math.ceil(dataFiltered.length / PER_PAGE);
+  const _DATA = usePagination(dataFiltered, PER_PAGE);
+
+  const handleChange = (e: any, p: number) => {
+    setPage(p);
+    _DATA.jump(p);
+  };
 
   return (
     <div className={s.box}>
@@ -82,33 +96,45 @@ function App() {
             <button onClick={() => setFilterValues()}
                     className={s.buttonFilter}>ПРИМЕНИТЬ ФИЛЬТР
             </button>
-            {(clearActive === 'active') ? <button onClick={() => clearFilterValues()}
-                                                  className={s.clearFilter}>ОЧИСТИТЬ ФИЛЬТР
-            </button> : ''}
-
+            {(clearActive === 'active')
+              ? <button onClick={() => clearFilterValues()}
+                        className={s.clearFilter}>ОЧИСТИТЬ ФИЛЬТР</button>
+              : ''}
           </div>
         </div>
       </div>
-      {dataFiltered.length !== 0 ? dataFiltered.map((el, ind) => {
-        return <div key={ind + 323} className={s.dataFiltered}>
+      {dataFiltered.length !== 0
+        ?<>
+        {_DATA.currentData().map((el, ind) => {
+          return <div key={ind + 323} className={s.dataFiltered}>
           <div>{el.hotelName}</div>
           <div className={s.dataFilteredAttribute}>
-            <div className={s.dataFilteredAttributeItem}>
-              <Rating value={el.feedbackStar} readOnly/>
-            </div>
-            <div>
-              {el.quantityFeedBacks}
-            </div>
+          <div className={s.dataFilteredAttributeItem}>
+          <Rating value={el.feedbackStar} readOnly/>
+          </div>
+          <div>
+        {el.quantityFeedBacks}
+          </div>
           </div>
           <div className={s.dataFilteredDescription}>{el.description}</div>
           <div className={s.dataFilteredAttribute}>
-            {<button
-              className={ !el.status ? s.buttonBooked  : s.buttonUnbooked }
-              onClick={() => dispatch(setBookStatusAC(el.id , el.status))}>{el.status ? 'Забронировать' : 'Забронировано' }</button>}
-            <div className={s.priceAttribute}>{el.price}</div>
+        {<button
+          className={!el.status ? s.buttonBooked : s.buttonUnbooked}
+          onClick={() => dispatch(setBookStatusAC(el.id, el.status))}>{el.status ? 'Забронировать' : 'Забронировано'}</button>}
+          <div className={s.priceAttribute}>{el.price}</div>
           </div>
-        </div>
-      }) : <EmptyComingData/> }
+          </div>
+        })}
+          <Pagination
+            count={count}
+            size="large"
+            page={page}
+            variant="outlined"
+            shape="rounded"
+            onChange={handleChange}
+          />
+        </>
+        : <EmptyComingData/>}
     </div>
   );
 }
